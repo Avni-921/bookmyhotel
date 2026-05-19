@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BookMyHotel - Premium Hotel Booking Platform. Find and book luxury hotels with the best prices.">
+    <title>BookMyHotel — Premium Hotel Booking</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo"><span>Book</span>MyHotel</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/rooms.html">Rooms</a></li>
+                <li><a href="/facilities.html">Facilities</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="/about.html">About</a></li>
+            </ul>
+            <div class="nav-btns">
+                <div id="authBtns">
+                    <button class="btn btn-outline btn-sm" onclick="openModal('loginModal')">Login</button>
+                    <button class="btn btn-primary btn-sm" onclick="openModal('registerModal')">Register</button>
+                </div>
+                <div id="userMenu" style="display:none">
+                    <a href="/bookings.html" class="btn btn-ghost btn-sm"><i class="bi bi-calendar-check"></i> My Bookings</a>
+                    <button class="btn btn-outline btn-sm" onclick="logout()"><i class="bi bi-box-arrow-right"></i></button>
+                </div>
+                <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-slider">
+            <div class="hero-slide active"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600&q=80" alt="Luxury Hotel"></div>
+            <div class="hero-slide"><img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1600&q=80" alt="Hotel Pool"></div>
+            <div class="hero-slide"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1600&q=80" alt="Hotel Room"></div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Experience <span>Luxury</span> Like Never Before</h1>
+            <p>Discover handpicked premium hotels with world-class amenities, breathtaking views, and unforgettable experiences tailored just for you.</p>
+            <a href="/rooms.html" class="btn btn-primary">Explore Rooms <i class="bi bi-arrow-right"></i></a>
+            <div class="hero-dots">
+                <span class="hero-dot active" onclick="goToSlide(0)"></span>
+                <span class="hero-dot" onclick="goToSlide(1)"></span>
+                <span class="hero-dot" onclick="goToSlide(2)"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Bar -->
+    <div class="search-bar" id="searchBar">
+        <form id="searchForm" onsubmit="searchRooms(event)">
+            <div class="search-grid">
+                <div class="form-group">
+                    <label>Check-in</label>
+                    <input type="date" id="searchCheckin" required>
+                </div>
+                <div class="form-group">
+                    <label>Check-out</label>
+                    <input type="date" id="searchCheckout" required>
+                </div>
+                <div class="form-group">
+                    <label>Guests</label>
+                    <select id="searchGuests">
+                        <option value="1">1 Guest</option>
+                        <option value="2" selected>2 Guests</option>
+                        <option value="3">3 Guests</option>
+                        <option value="4">4 Guests</option>
+                        <option value="5">5+ Guests</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Sort By</label>
+                    <select id="searchSort">
+                        <option value="rating">Top Rated</option>
+                        <option value="price_asc">Price: Low to High</option>
+                        <option value="price_desc">Price: High to Low</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Search</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Featured Rooms -->
+    <section class="section" id="rooms">
+        <div class="section-title">
+            <h2>Our Premium Rooms</h2>
+            <p>Handcrafted luxury for every kind of traveler</p>
+            <div class="divider"></div>
+        </div>
+        <div class="card-grid" id="roomsGrid">
+            <div class="loader"><div class="spinner"></div></div>
+        </div>
+        <div style="text-align:center; margin-top:2rem;">
+            <a href="/rooms.html" class="btn btn-outline">View All Rooms <i class="bi bi-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- Facilities -->
+    <section class="section" style="background: rgba(255,255,255,0.02); padding: 5rem calc((100% - 1280px)/2 + 2rem);">
+        <div class="section-title">
+            <h2>World-Class Facilities</h2>
+            <p>Everything you need for the perfect stay</p>
+            <div class="divider"></div>
+        </div>
+        <div class="facility-grid">
+            <div class="facility-card"><div class="facility-icon">🌐</div><h4>Free High-Speed WiFi</h4><p>Stay connected with blazing-fast internet throughout the property</p></div>
+            <div class="facility-card"><div class="facility-icon">🏊</div><h4>Infinity Pool</h4><p>Enjoy our stunning rooftop pool with panoramic city views</p></div>
+            <div class="facility-card"><div class="facility-icon">🍸</div><h4>Premium Bar & Lounge</h4><p>Handcrafted cocktails and fine wines in an elegant setting</p></div>
+            <div class="facility-card"><div class="facility-icon">💆</div><h4>Luxury Spa</h4><p>Rejuvenate with world-class treatments and therapies</p></div>
+            <div class="facility-card"><div class="facility-icon">📺</div><h4>Smart Entertainment</h4><p>4K smart TVs with premium streaming in every room</p></div>
+            <div class="facility-card"><div class="facility-icon">🍽️</div><h4>Fine Dining</h4><p>Award-winning restaurant with cuisines from around the world</p></div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section">
+        <div class="section-title">
+            <h2>Guest Reviews</h2>
+            <p>What our guests say about their experience</p>
+            <div class="divider"></div>
+        </div>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p>From the moment we arrived, the staff made us feel like royalty. The room was immaculate, and the view was breathtaking. An unforgettable experience!</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">AK</div>
+                    <div><h5>Arun Kumar</h5><small>★★★★★</small></div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p>The spa was absolutely divine, and the infinity pool is a must. Best hotel experience I've had in India. Will definitely return!</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">PS</div>
+                    <div><h5>Priya Sharma</h5><small>★★★★★</small></div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p>Perfect for our anniversary. The honeymoon suite exceeded all expectations — the private jacuzzi and the champagne welcome were a lovely touch.</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">RG</div>
+                    <div><h5>Rahul & Geeta</h5><small>★★★★★</small></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reach Us -->
+    <section class="section" style="background: rgba(255,255,255,0.02); padding: 5rem calc((100% - 1280px)/2 + 2rem);">
+        <div class="section-title">
+            <h2>Find Us</h2>
+            <p>Visit us or get in touch anytime</p>
+            <div class="divider"></div>
+        </div>
+        <div class="contact-grid">
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d230660.86!2d81.80!3d25.40!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398534c9b20bd49f%3A0xa2237856ad4041a!2sPrayagraj%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1717303748137!5m2!1sen!2sin" loading="lazy"></iframe>
+            </div>
+            <div>
+                <div class="contact-info-card">
+                    <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                    <div><h5 style="color:#fff; font-family:'Inter',sans-serif; font-size:0.95rem;">Address</h5><p style="color:rgba(255,255,255,0.5)">Civil Lines, Prayagraj, Uttar Pradesh, India</p></div>
+                </div>
+                <div class="contact-info-card">
+                    <div class="contact-icon"><i class="bi bi-telephone-fill"></i></div>
+                    <div><h5 style="color:#fff; font-family:'Inter',sans-serif; font-size:0.95rem;">Phone</h5><p style="color:rgba(255,255,255,0.5)">+91 90906 78945</p></div>
+                </div>
+                <div class="contact-info-card">
+                    <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
+                    <div><h5 style="color:#fff; font-family:'Inter',sans-serif; font-size:0.95rem;">Email</h5><p style="color:rgba(255,255,255,0.5)">info@bookmyhotel.com</p></div>
+                </div>
+                <a href="/contact.html" class="btn btn-primary" style="margin-top:1rem; width:100%;">Send Us a Message <i class="bi bi-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
+                <h4 style="font-size:1.5rem; font-family:'Playfair Display',serif;"><span style="color:#fff">Book</span>MyHotel</h4>
+                <p style="margin-top:1rem;">Nestled in the heart of Prayagraj, our hotel offers unparalleled luxury with stunning views, exquisite dining, and a tranquil spa. Every detail is crafted for an unforgettable stay.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/rooms.html">Rooms</a></li>
+                    <li><a href="/facilities.html">Facilities</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
+                    <li><a href="/about.html">About</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Room Types</h4>
+                <ul class="footer-links">
+                    <li><a href="/rooms.html">Standard Room</a></li>
+                    <li><a href="/rooms.html">Deluxe Room</a></li>
+                    <li><a href="/rooms.html">Premium Suite</a></li>
+                    <li><a href="/rooms.html">Family Suite</a></li>
+                    <li><a href="/rooms.html">Honeymoon Suite</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Connect</h4>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="bi bi-facebook"></i> Facebook</a></li>
+                    <li><a href="#"><i class="bi bi-instagram"></i> Instagram</a></li>
+                    <li><a href="#"><i class="bi bi-twitter-x"></i> Twitter</a></li>
+                    <li><a href="#"><i class="bi bi-youtube"></i> YouTube</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 BookMyHotel. All rights reserved. Crafted with ❤️</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Welcome Back</h3>
+                <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Login <i class="bi bi-arrow-right"></i></button>
+                    <p style="text-align:center; margin-top:1rem; color:rgba(255,255,255,0.5); font-size:0.9rem;">
+                        Don't have an account? <a href="#" onclick="switchModal('loginModal','registerModal')">Register</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal-overlay" id="registerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Create Account</h3>
+                <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="form-group"><label>Full Name</label><input type="text" id="regName" placeholder="John Doe" required></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="your@email.com" required></div>
+                    <div class="form-group"><label>Phone</label><input type="tel" id="regPhone" placeholder="+91 98765 43210"></div>
+                    <div class="form-group"><label>Address</label><input type="text" id="regAddress" placeholder="Your city"></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="regPassword" placeholder="Min 6 characters" required minlength="6"></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Register <i class="bi bi-arrow-right"></i></button>
+                    <p style="text-align:center; margin-top:1rem; color:rgba(255,255,255,0.5); font-size:0.9rem;">
+                        Already have an account? <a href="#" onclick="switchModal('registerModal','loginModal')">Login</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal-overlay room-detail-modal" id="bookingModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Book This Room</h3>
+                <button class="modal-close" onclick="closeModal('bookingModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="bookingModalBody"></div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

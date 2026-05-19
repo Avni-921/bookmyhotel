@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse and book premium hotel rooms at BookMyHotel. Filter by price, facilities, and availability.">
+    <title>Our Rooms — BookMyHotel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo"><span>Book</span>MyHotel</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/">Home</a></li>
+                <li><a href="/rooms.html" class="active">Rooms</a></li>
+                <li><a href="/facilities.html">Facilities</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="/about.html">About</a></li>
+            </ul>
+            <div class="nav-btns">
+                <div id="authBtns"><button class="btn btn-outline btn-sm" onclick="openModal('loginModal')">Login</button><button class="btn btn-primary btn-sm" onclick="openModal('registerModal')">Register</button></div>
+                <div id="userMenu" style="display:none"><a href="/bookings.html" class="btn btn-ghost btn-sm"><i class="bi bi-calendar-check"></i> My Bookings</a><button class="btn btn-outline btn-sm" onclick="logout()"><i class="bi bi-box-arrow-right"></i></button></div>
+                <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+
+    <div style="height:80px"></div>
+    <section class="section">
+        <div class="section-title"><h2>Our Rooms</h2><p id="roomCount">Loading...</p><div class="divider"></div></div>
+        <div class="page-layout">
+            <div class="filter-panel">
+                <h3 style="color:#fff; margin-bottom:1.5rem; font-family:'Playfair Display',serif;">Filters</h3>
+                <div class="filter-section">
+                    <h4>Dates</h4>
+                    <div class="form-group" style="margin-bottom:0.8rem;"><label>Check-in</label><input type="date" id="filterCheckin"></div>
+                    <div class="form-group"><label>Check-out</label><input type="date" id="filterCheckout"></div>
+                </div>
+                <div class="filter-section">
+                    <h4>Price Range</h4>
+                    <div class="price-range">
+                        <div class="form-group"><label>Min ₹</label><input type="number" id="filterMinPrice" placeholder="1000" step="500"></div>
+                        <div class="form-group"><label>Max ₹</label><input type="number" id="filterMaxPrice" placeholder="15000" step="500"></div>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h4>Guests</h4>
+                    <div class="form-group">
+                        <select id="filterGuests"><option value="">Any</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5+</option></select>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h4>Facilities</h4>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" class="facility-checkbox" value="Wifi"> Wifi</label>
+                        <label><input type="checkbox" class="facility-checkbox" value="AC"> AC</label>
+                        <label><input type="checkbox" class="facility-checkbox" value="Swimming Pool"> Swimming Pool</label>
+                        <label><input type="checkbox" class="facility-checkbox" value="Spa Access"> Spa Access</label>
+                        <label><input type="checkbox" class="facility-checkbox" value="Mini Bar"> Mini Bar</label>
+                        <label><input type="checkbox" class="facility-checkbox" value="Room Service"> Room Service</label>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h4>Sort By</h4>
+                    <div class="form-group">
+                        <select id="filterSort"><option value="rating">Top Rated</option><option value="price_asc">Price: Low → High</option><option value="price_desc">Price: High → Low</option></select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="width:100%" onclick="applyFilters()">Apply Filters</button>
+            </div>
+            <div class="card-grid" id="roomsPageGrid"><div class="loader"><div class="spinner"></div></div></div>
+        </div>
+    </section>
+
+    <footer class="footer"><div class="footer-bottom"><p>&copy; 2024 BookMyHotel. All rights reserved.</p></div></footer>
+
+    <!-- Modals (same as index) -->
+    <div class="modal-overlay" id="loginModal"><div class="modal"><div class="modal-header"><h3>Welcome Back</h3><button class="modal-close" onclick="closeModal('loginModal')">&times;</button></div><div class="modal-body"><form id="loginForm" onsubmit="handleLogin(event)"><div class="form-group"><label>Email</label><input type="email" id="loginEmail" required></div><div class="form-group"><label>Password</label><input type="password" id="loginPassword" required></div><button type="submit" class="btn btn-primary" style="width:100%">Login</button><p style="text-align:center;margin-top:1rem;color:rgba(255,255,255,0.5);font-size:0.9rem">Don't have an account? <a href="#" onclick="switchModal('loginModal','registerModal')">Register</a></p></form></div></div></div>
+    <div class="modal-overlay" id="registerModal"><div class="modal"><div class="modal-header"><h3>Create Account</h3><button class="modal-close" onclick="closeModal('registerModal')">&times;</button></div><div class="modal-body"><form id="registerForm" onsubmit="handleRegister(event)"><div class="form-group"><label>Name</label><input type="text" id="regName" required></div><div class="form-group"><label>Email</label><input type="email" id="regEmail" required></div><div class="form-group"><label>Phone</label><input type="tel" id="regPhone"></div><div class="form-group"><label>Address</label><input type="text" id="regAddress"></div><div class="form-group"><label>Password</label><input type="password" id="regPassword" required minlength="6"></div><button type="submit" class="btn btn-primary" style="width:100%">Register</button></form></div></div></div>
+    <div class="modal-overlay room-detail-modal" id="bookingModal"><div class="modal"><div class="modal-header"><h3>Room Details</h3><button class="modal-close" onclick="closeModal('bookingModal')">&times;</button></div><div class="modal-body" id="bookingModalBody"></div></div></div>
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="/js/app.js"></script>
+</body>
+</html>
